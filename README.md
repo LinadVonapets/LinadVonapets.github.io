@@ -1,1 +1,2 @@
-# LinadVonapets.github.io
+# Error 404
+Веля, тебе бан:)
