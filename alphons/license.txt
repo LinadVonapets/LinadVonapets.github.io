@@ -1,0 +1,11 @@
+Model Information:
+* title:	Fullmetal Alchemist - Alphonse Elric
+* source:	https://sketchfab.com/3d-models/fullmetal-alchemist-alphonse-elric-a110797c6d19424db20cecfe5f001501
+* author:	NO.CCCCCC (https://sketchfab.com/NO.C)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Fullmetal Alchemist - Alphonse Elric" (https://sketchfab.com/3d-models/fullmetal-alchemist-alphonse-elric-a110797c6d19424db20cecfe5f001501) by NO.CCCCCC (https://sketchfab.com/NO.C) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
