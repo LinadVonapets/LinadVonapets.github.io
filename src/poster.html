@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.9/zappar-aframe.js"></script>
+
+    <title>Постер</title>
+    <link rel="shortcut icon" href="../assets/cup.ico" type="image/x-icon">
+</head>
+
+<body>
+    <a-scene>
+
+        <!-- Запрос на работу камеры -->
+        <a-entity zappar-permissions-ui id="permissions"></a-entity>
+
+        <!-- Проверка браузера на совместимость -->
+        <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+
+        <!-- Подгрузка ресурсов из папки assets -->
+        <a-assets>
+            <a-asset-item id="target-file"
+                src="../assets/zpts/chaban.zpt" />
+
+            <a-asset-item id="orange" 
+                 src="../assets/orange/orange.glb">
+            </a-asset-item>
+
+            <a-asset-item id="teapot" 
+                 src="../assets/teapot/teapot.glb">
+            </a-asset-item>
+
+                
+            <img id="cup"
+                src="https://cdn.glitch.global/dcc3141f-d5c4-46c8-92b8-eab54fded802/plane.png?v=1642666530582" />
+        </a-assets>
+
+        <!-- Подключение камеры -->
+        <a-entity camera zappar-camera></a-entity>
+
+        <!-- Подключение таргета -->
+        <a-entity zappar-image="target: #target-file">
+
+            <!-- Подключение оверлея: подключение 2d и 3d объектов, которые отображаются поверх таргета-->
+            <a-image src="#cup" position="0.3 0.30 0" scale="0.6 0.7 0.6"></a-image>
+
+            <a-image src="#cup" position="0.7 -0.20 0" scale="0.6 0.7 0.6"></a-image>
+
+            <a-gltf-model 
+                src="#orange" 
+                position="-0.30 0  0" 
+                scale="3 3 3"
+                rotation="40 20 20"
+                ></a-gltf-model>
+            <a-gltf-model 
+                src="#teapot" 
+                position="-0.75 0.4 0"
+                scale="5 5 5"
+                rotation="40 20 20"
+                ></a-gltf-model>
+
+        </a-entity>
+    </a-scene>
+</body>
+
+</html>

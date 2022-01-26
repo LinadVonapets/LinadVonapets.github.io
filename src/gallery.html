@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Галерея</title>
+
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+    <link rel="shortcut icon" href="../assets/cup.ico" type="image/x-icon">
+</head>
+
+<body>
+    <!-- Управление по нажатию на элементы в доп реальности-->
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: [data-clickable]" loading-screen="backgroundColor: #344A60">
+        <!-- Загружаем ассеты -->
+        <a-assets>
+            <!--Кнопки управления: вперед и назад-->
+            <img id="next"
+                src="https://cdn.glitch.global/e6eda915-1641-4e7f-a71c-e08238b5b19e/forward%20(2).png?v=1642520204086" />
+            <img id="prev"
+                src="https://cdn.glitch.global/e6eda915-1641-4e7f-a71c-e08238b5b19e/forward%20(1).png?v=1642520144498" />
+
+            <!-- Картинки оверлеи: фотографии из галереи -->
+            <img id="picture1"
+                src="https://cdn.glitch.global/e6eda915-1641-4e7f-a71c-e08238b5b19e/11.jpg?v=1642506242736" />
+            <img id="picture2"
+                src="https://cdn.glitch.global/e6eda915-1641-4e7f-a71c-e08238b5b19e/22.jpg?v=1642506243222" />
+
+            <!-- zpt файл с таргетом -->
+            <a-asset-item id="target"
+                src="https://cdn.glitch.global/e6eda915-1641-4e7f-a71c-e08238b5b19e/gallery_targ.zpt?v=1642505712196" />
+        </a-assets>
+
+        <!-- Получение разрешения на использование камеры -->
+        <a-entity zappar-permissions-ui id="permissions"></a-entity>
+
+        <!-- Проверка совмести браузера -->
+        <a-entity zappar-compatibility-ui id="compatibility"></a-entity>
+
+        <!--Подключение камеры -->
+        <a-camera zappar-camera cursor="rayOrigin: mouse; fuse: false;" raycaster="objects: .collidable"></a-camera>
+
+        <!-- Трекинг таргета: при наложении на таргет отображаются элементы находящиеся внутри контейнера с компонентом ZAPPAR-IMAGE -->
+        <a-entity zappar-image="target: #target ">
+            <!-- Отображение фотографий -->
+            <a-entity>
+                <a-plane id="pic0" visible="true" src="#picture1" width="1.51" height="1.5" position="0 0 -0.01">
+                </a-plane>
+
+                <a-plane id="pic1" visible="false" src="#picture2" width="1.51" height="1.5" position="0 0 -0.01">
+                </a-plane>
+            </a-entity>
+
+            <!--Отображение управляющих элементов: вперед и назад-->
+            <a-entity geometry="primitive: plane" material="src: #next; transparent: true;" position="0.7 0 0"
+                scale="0.2 0.2 0.2" data-clickable onclick="OnNextClick()"></a-entity>
+
+            <a-entity geometry="primitive: plane" material="src: #prev; transparent: true;" position="-0.7 0 0"
+                scale="0.2 0.2 0.2" data-clickable onclick="OnPrevClick()"></a-entity>
+        </a-entity>
+    </a-scene>
+
+    <!-- Переключение кода  -->
+    <script>
+        var curr = 0; // текущая маска
+        var picAmount = 2; // количество масок
+        var d = document; //сокращение для удобства работы
+        // Интерфейс документа представляет любую веб-страницу,
+        // загруженную в браузер, и служит точкой входа
+        // в содержимое веб-страницы, которое является деревом DOM.
+
+        // Пролистывание вперед
+        function OnNextClick() {
+            if (curr < picAmount - 1) {
+                curr++;
+                d.getElementById("pic" + curr).setAttribute("visible", true);
+                d.getElementById("pic" + (curr - 1)).setAttribute("visible", false);
+            }
+        }
+
+        // Пролистывание назад
+        function OnPrevClick() {
+            if (curr > 0) {
+                curr--;
+                d.getElementById("pic" + curr).setAttribute("visible", true);
+                d.getElementById("pic" + (curr + 1)).setAttribute("visible", false);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Фотобудка 1</title>
+
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://libs.zappar.com/zappar-aframe/0.3.29/zappar-aframe.js"></script>
+    <link rel="shortcut icon" href="../assets/cup.ico" type="image/x-icon">
+</head>
+
+<body>
+    <!-- Управление по нажатию на элементы в доп реальности-->
+    <a-scene cursor="rayOrigin: mouse" raycaster="objects: [data-clickable]">
+        <!-- Загружаем ассеты -->
+        <a-assets>
+            <!-- Национальная шапка (2D)-->
+            <img id="sakura"
+                src="../assets/sakura2.png" />
+            <img id="monocle"
+                src="../assets/monocle.png" />
+
+            <!-- Корона (3D объект)-->
+            <a-asset-item id="crown"
+                src="../assets/chinese_dragon/dragon.obj">
+            </a-asset-item>
+
+            <!--Корона (материалы)-->
+            <a-asset-item id="crown-mtl"
+                src="../assets/chinese_dragon/dragon.mtl">
+            </a-asset-item>
+
+            <!--Кнопки управления: вперед и назад-->
+            <img id="next"
+                src="https://cdn.glitch.global/8cd2ee54-a770-4224-88fc-e8ed68987492/share%20%E2%80%94%20%D0%BA%D0%BE%D0%BF%D0%B8%D1%8F.png?v=1642502993546" />
+            <img id="prev"
+                src="https://cdn.glitch.global/8cd2ee54-a770-4224-88fc-e8ed68987492/imgonline-com-ua-Mirror-84HIe9wLNvNME3UZ.png?v=1642503099051" />
+        </a-assets>
+
+        <!-- Получение разрешения на использование камеры и вывод сообщения-->
+        <a-entity zappar-permissions-ui id="permissions">
+            <a-entity text="value: Please reload the page, accepting the camera permissions." position="0 0 -2">
+            </a-entity>
+        </a-entity>
+
+        <!--Подключение камеры с возможностью распознавания лиц-->
+        <a-entity camera zappar-camera="user-facing: true;"> </a-entity>
+
+        <!-- Трекинг лица: при наложении на лицо отображаются элементы находящиеся внутри контейнера с компонентом ZAPPAR-FACE  -->
+        <a-entity zappar-face id="face-track">
+            <!-- Отображение шапки (2D) -->
+            <a-entity visible="true" id="facemesh0" geometry="primitive: plane;"
+                material="src:#sakura; transparent: true;" rotation="0 0 0" scale="1.5 1 1.5" position="0 .5 1">
+            </a-entity>
+
+            <!-- Отображение короны (3D объект + материал) -->
+            <a-entity zappar-head-mask="face: #face-track"></a-entity>
+            <a-obj-model src="#crown" mtl="#crown-mtl" visible="false" id="facemesh1" rotation="0 -90 0"
+            scale="0.008 0.008 0.008" position="0 1 0"></a-obj-model>
+            <!--Отображение управляющих элементов: вперед и назад-->
+            
+            <a-entity visible="false" id="facemesh2" geometry="primitive: plane;"
+                material="src:#monocle; transparent: true;" rotation="0 0 0" scale="1.5 1.5 1.5" position="-0.06 0.27 0.91">
+            </a-entity>
+
+            <a-entity geometry="primitive: plane" material="src: #next; transparent: true;" position="0.5 -1.5 0"
+                scale="0.5 0.5 0.5" data-clickable onclick="OnNextClick()"></a-entity>
+
+            <a-entity geometry="primitive: plane" material="src: #prev; transparent: true;" position="-0.5 -1.5 0"
+                scale="0.5 0.5 0.5" data-clickable onclick="OnPrevClick()"></a-entity>
+        </a-entity>
+    </a-scene>
+
+    <!-- Переключение кода  -->
+    <script>
+        var curr = 0;               // текущая маска
+        var maskAmount = 3;         // количество масок
+        var d = document;           //сокращение для удобства работы
+        // Интерфейс документа представляет любую веб-страницу, 
+        // загруженную в браузер, и служит точкой входа 
+        // в содержимое веб-страницы, которое является деревом DOM.
+
+        // Пролистывание вперед
+        function OnNextClick() {
+            if (curr < maskAmount - 1) {
+                curr++;                 //curr = curr + 1
+                d.getElementById("facemesh" + curr).setAttribute("visible", true);
+                d.getElementById("facemesh" + (curr - 1)).setAttribute(
+                    "visible",
+                    false
+                );
+            }
+        }
+
+        // Пролистывание назад
+        function OnPrevClick() {
+            if (curr > 0) {
+                curr--;                 //curr = curr - 1
+                d.getElementById("facemesh" + curr).setAttribute("visible", true);
+                d.getElementById("facemesh" + (curr + 1)).setAttribute(
+                    "visible",
+                    false
+                );
+            }
+        }
+    </script>
+</body>
+
+</html>
